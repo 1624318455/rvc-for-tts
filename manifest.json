@@ -1,45 +1,56 @@
 {
-  "updated": "2026-08-15T20:56:12Z",
   "schema": 2,
   "packs": [
     {
-      "version": "1.0.0",
-      "author": "memeflyfly",
-      "baseVoice": "zh-CN-YunyangNeural",
-      "id": "azusa-test",
-      "license": "restricted-personal",
-      "name": "Azusa（自用）",
       "f0Method": "rmvpe",
-      "model": {
-        "size": 55224656,
-        "sha256": "51920e8ad96d6d7a93407e5928df5583698b2b322351739f534849ad4619358c",
-        "url": "packs/azusa-test/model.pth"
-      },
+      "description": "音色包：guanguanV1（模型 + 索引）",
+      "version": "1.0.0",
+      "id": "guanguanV1",
+      "license": "author-owned",
+      "baseVoice": "zh-CN-YunyangNeural",
       "indexes": [
         {
-          "id": "c2k",
-          "size": 6144045,
-          "sha256": "a4f78c2e65aef057c9341de191019f0f5fe5751dfdcdc2aff7c2b006b41bc2b9",
-          "url": "packs/azusa-test/azusa-test_IVF3317_Flat_nprobe_1_azusa-test_v2_compact_2000.index",
-          "name": "紧凑 2k（约 6MB，最省）"
-        },
-        {
-          "id": "c10k",
-          "size": 30720045,
-          "sha256": "9a5071a10fe0320790ea56ef5f7aadc92c7f9a51e3ee9e9a183c72ccbab8248a",
-          "url": "packs/azusa-test/azusa-test_IVF3317_Flat_nprobe_1_azusa-test_v2_compact_10000.index",
-          "name": "紧凑 10k（约 30MB，推荐）"
-        },
-        {
-          "id": "c20k",
-          "size": 61440045,
-          "sha256": "025f4f1568e75973ce5a656253d60b8badc50c237c3cff1766ae48e2e611ed55",
-          "url": "packs/azusa-test/azusa-test_IVF3317_Flat_nprobe_1_azusa-test_v2_compact_20000.index",
-          "name": "紧凑 20k（约 60MB，最还原）"
+          "url": "packs/guanguanV1/guanguanV1.index",
+          "id": "full",
+          "size": 33496795,
+          "sha256": "d04454f009988ad7e3d830d3d8870b3d107978738e2e3b10bd415038ed882cac",
+          "name": "完整索引（32MB）"
         }
       ],
-      "description": "演示音色 azusa-test：模型 + 3 个紧凑索引（2k/10k/20k）。仅限你本人使用，勿公开分发。完整 408MB 索引不在仓库（GitHub 单文件限制），需要时从本机 assets/indices 取。",
+      "name": "guanguanV1",
+      "model": {
+        "url": "packs/guanguanV1/model.pth",
+        "size": 55024402,
+        "sha256": "5a4920ef7b8c28be41dbd3afe2bd8cc852bccc5da82ac0590afb2a160ca81bb2"
+      },
+      "author": "memeflyfly",
+      "indexRate": 0.75
+    },
+    {
+      "f0Method": "rmvpe",
+      "description": "音色包：keruanV1（模型 + 索引）",
+      "version": "1.0.0",
+      "id": "keruanV1",
+      "license": "author-owned",
+      "baseVoice": "zh-CN-YunyangNeural",
+      "indexes": [
+        {
+          "url": "packs/keruanV1/keruanV1.index",
+          "id": "full",
+          "size": 41683651,
+          "sha256": "8e8d2000be4c6dce12102fe417e03ac13c338328da424e33a8e71d94eb1b3380",
+          "name": "完整索引（40MB）"
+        }
+      ],
+      "name": "keruanV1",
+      "model": {
+        "url": "packs/keruanV1/model.pth",
+        "size": 55024861,
+        "sha256": "9b3808d83e99b7c7b01cc1e33cee79ab8f1ebed08708b72066917465ea336e56"
+      },
+      "author": "memeflyfly",
       "indexRate": 0.75
     }
-  ]
+  ],
+  "updated": "2026-08-15T22:40:02Z"
 }
