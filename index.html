@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rvc-for-tts · 音色包列表</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; margin: 0; background: #0f1115; color: #e6e6e6; }
+  header { padding: 28px 20px 16px; max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  .sub { color: #9aa0a6; font-size: 13px; line-height: 1.6; }
+  .reg { display:inline-block; margin-top:8px; font-size:12px; background:#1b1e24; border:1px solid #333; border-radius:6px; padding:4px 8px; color:#8ab4f8; word-break: break-all; }
+  main { max-width: 860px; margin: 0 auto; padding: 8px 20px 40px; }
+  .card { background:#161a20; border:1px solid #262b33; border-radius:10px; padding:14px 16px; margin-bottom:12px; }
+  .card h2 { font-size:16px; margin:0 0 4px; }
+  .meta { color:#9aa0a6; font-size:12px; line-height:1.7; }
+  .files { margin-top:8px; font-size:12px; }
+  .files li { margin:2px 0; color:#b9bec4; }
+  .files .size { color:#8ab4f8; }
+  .tag { display:inline-block; font-size:11px; border:1px solid #3a4150; border-radius:999px; padding:1px 8px; margin-left:6px; color:#c6cbd2; }
+  #status { color:#9aa0a6; font-size:13px; padding:12px 20px; }
+  .err { color:#f28b82; }
+  a { color:#8ab4f8; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .idx { color:#e6e6e6; }
+</style>
+</head>
+<body>
+<header>
+  <h1>rvc-for-tts · 音色包</h1>
+  <div class="sub">dsh-plugin-tts 音色包仓库。插件内「设置 → 插件 → 语音 → 音色包」填下面的仓库地址即可一键下载安装。</div>
+  <span class="reg" id="reg"></span>
+</header>
+<main id="list">
+  <div id="status">加载清单…</div>
+</main>
+<script>
+(async () => {
+  const reg = location.origin + location.pathname.replace(/\/index\.html$/, '/').replace(/\/$/, '');
+  document.getElementById('reg').textContent = reg;
+  const fmt = n => n ? (n >= 104857600 ? (n/1073741824).toFixed(1)+' GB' : (n/1048576).toFixed(1)+' MB') : '0 MB';
+  const list = document.getElementById('list');
+  const status = document.getElementById('status');
+  try {
+    const r = await fetch('./manifest.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const m = await r.json();
+    status.remove();
+    if (!m.packs || !m.packs.length) { list.innerHTML = '<div class="sub">仓库暂无音色包。</div>'; return; }
+    for (const p of m.packs) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const indexes = p.indexes && p.indexes.length ? p.indexes : (p.index ? [p.index] : []);
+      const idxHtml = indexes.length
+        ? '<div class="files">索引：<ul>' + indexes.map(i =>
+            '<li><a class="idx" href="' + encodeURI(i.url) + '" download>' + (i.name || i.id) + '</a> <span class="size">' + fmt(i.size) + '</span></li>').join('') + '</ul></div>'
+        : '<div class="files">免索引（索引路径留空即可）</div>';
+      card.innerHTML =
+        '<h2>' + (p.name || p.id) + (p.license ? '<span class="tag">' + p.license + '</span>' : '') + '</h2>' +
+        '<div class="meta">' +
+          (p.description ? p.description + '<br>' : '') +
+          (p.author ? '作者：' + p.author + '<br>' : '') +
+          '版本：' + (p.version || '1.0.0') + ' · 底噪：' + (p.baseVoice || 'zh-CN-YunyangNeural') + ' · f0：' + (p.f0Method || 'rmvpe') +
+        '</div>' +
+        '<div class="files">模型：<a href="' + encodeURI(p.model.url) + '" download>' + p.model.url.split('/').pop() + '</a> <span class="size">' + fmt(p.model.size) + '</span></div>' +
+        idxHtml;
+      list.appendChild(card);
+    }
+  } catch (e) {
+    status.className = 'err';
+    status.textContent = '加载清单失败：' + e.message;
+  }
+})();
+</script>
+</body>
+</html>
